@@ -1,0 +1,16 @@
+.bd{
+    background: white;
+    
+
+}
+.modal{
+    position: absolute;
+    align-items: center;
+    display: flex;
+}
+.nav{
+    color: black;
+}
+a{
+    text-decoration: none;
+}
