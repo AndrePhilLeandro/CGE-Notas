@@ -1,52 +1,64 @@
-
 function abremodal() {
-    document.getElementById("modal").style.display = "block";
+  document.getElementById("modal").style.display = "block";
 }
 function fechamodal() {
-    document.getElementById("modal").style.display = "none";
+  document.getElementById("modal").style.display = "none";
 }
-
-
 function editNote(index) {
-    const notes = JSON.parse(localStorage.getItem('notas')) || [];
-    const note = notes[index];
-    
-    if (note) {
-        const newTitle = prompt('Novo título:', note.titulo);
-        const newDescription = prompt('Nova descrição:', note.descricao);
-        
-        note.titulo = newTitle;
-        note.descricao = newDescription;
-        
-        localStorage.setItem('notas', JSON.stringify(notes));
-        exibirNotas();
-    } else {
-        alert('Nota não encontrada!');
-    }
+  const notes = JSON.parse(localStorage.getItem("notas")) || [];
+  const note = notes[index];
+
+  if (note) {
+    const newTitle = prompt("Novo título:", note.titulo);
+    const newDescription = prompt("Nova descrição:", note.descricao);
+
+    note.titulo = newTitle;
+    note.descricao = newDescription;
+
+    localStorage.setItem("notas", JSON.stringify(notes));
+    exibirNotas();
+  } else {
+    alert("Nota não encontrada!");
+  }
 }
+let total = localStorage.getItem("notas");
+let contador = 0;
+// Verifica se há dados antes de tentar usar
+if (total) {
+  let notas = JSON.parse(total); // Converte a string para array
 
-
+  notas.forEach((obj, index) => {
+    console.log(`Índice: ${index}`);
+    contador++;
+    console.log(contador);
+  });
+} else {
+  console.log("Nenhuma nota encontrada no localStorage.");
+}
+document.getElementById(
+  "totalNotas"
+).innerHTML = `<h6 style="color: white;" id="totalNotas">Notas ao total:${contador} </h6>`;
 
 // Localstorage 1
-document.getElementById("FormNotas").addEventListener("submit", function(event) {
+document
+  .getElementById("FormNotas")
+  .addEventListener("submit", function (event) {
     event.preventDefault();
     const titulo = document.getElementById("Titulonota").value;
     const descricao = document.getElementById("desc").value;
     let novasNotas = JSON.parse(localStorage.getItem("notas")) || [];
     novasNotas.push({ titulo, descricao });
     localStorage.setItem("notas", JSON.stringify(novasNotas));
+    window.location.reload();
     exibirNotas();
     fechamodal();
-    
-});
-
-
+  });
 function exibirNotas() {
-    const notasContainer = document.getElementById("notas-container");
-    notasContainer.innerHTML = ""; 
-    let notas = JSON.parse(localStorage.getItem("notas")) || [];
-    notas.forEach((nota, index) => {
-        const notaHTML = `
+  const notasContainer = document.getElementById("notas-container");
+  notasContainer.innerHTML = "";
+  let notas = JSON.parse(localStorage.getItem("notas")) || [];
+  notas.forEach((nota, index) => {
+    const notaHTML = `
             <div class="card" style="margin-bottom: 10px;">
                 <div class="card-body">
                     <h5 class="card-title">${nota.titulo}</h5>
@@ -72,29 +84,30 @@ function exibirNotas() {
                 </div>
             </div>
         `;
-        notasContainer.innerHTML += notaHTML;
-    });
+    notasContainer.innerHTML += notaHTML;
+  });
 }
 function excluirNota(index) {
-    let notas = JSON.parse(localStorage.getItem("notas")) || [];
-    notas.splice(index, 1); 
-    localStorage.setItem("notas", JSON.stringify(notas)); 
-    exibirNotas(); 
+  let notas = JSON.parse(localStorage.getItem("notas")) || [];
+  notas.splice(index, 1);
+  localStorage.setItem("notas", JSON.stringify(notas));
+  window.location.reload();
+  exibirNotas();
 }
-document.addEventListener("DOMContentLoaded", function() {
-    exibirNotas();
+document.addEventListener("DOMContentLoaded", function () {
+  exibirNotas();
 });
 
 // Localstorage 2
 function notaConclu(index) {
-    let notas = JSON.parse(localStorage.getItem("notas")) || [];
-    let notaConcluida = notas[index];
-    notas.splice(index, 1);
-    let notasConcluidas = JSON.parse(localStorage.getItem("notasConcluidas")) || [];
-    notasConcluidas.push(notaConcluida);
-    localStorage.setItem("notasConcluidas", JSON.stringify(notasConcluidas));
-    localStorage.setItem("notas", JSON.stringify(notas));
-    exibirNotas();
+  let notas = JSON.parse(localStorage.getItem("notas")) || [];
+  let notaConcluida = notas[index];
+  notas.splice(index, 1);
+  let notasConcluidas =
+    JSON.parse(localStorage.getItem("notasConcluidas")) || [];
+  notasConcluidas.push(notaConcluida);
+  localStorage.setItem("notasConcluidas", JSON.stringify(notasConcluidas));
+  localStorage.setItem("notas", JSON.stringify(notas));
+  window.location.reload();
+  exibirNotas();
 }
-
-
